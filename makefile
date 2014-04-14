@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-I.
 
-DEPS = floodfill.h numstack.h
-OBJ = floodfill.o numstack.o explore_test.o
+DEPS = floodfill.h 
+OBJ = floodfill.o explore_test.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

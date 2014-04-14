@@ -1,5 +1,8 @@
-#include "numstack.h"
+//#include "numstack.h"
+#ifndef FLOODFILL_H
+#define FLOODFILL_H
 #include "floodfill.h"
+#endif
 int walls[MAZE_WIDTH][MAZE_HEIGHT] = {{0}};
 int visited[MAZE_WIDTH][MAZE_HEIGHT] = {{0}};
 int v_x = 0;
@@ -113,74 +116,19 @@ int increment_v(int x, int y){
  * return 0 if still exploring
  * 
  */
- 	/*int i_iv=0;
- 	int j_iv=0;
- 	int vcell=0;
- 	int vcell_n=0;
- 	int vcell_e=0;
- 	int vcell_s=0;
- 	int vcell_w=0;
-
-	while(1){
-		vcell = visited[v_y][v_x];
-		if(v_y < (MAZE_HEIGHT-1)) vcell_n = visited[v_y+1][v_x];
-		else vcell_n = 1;
-
- 		if(v_x < (MAZE_WIDTH-1)) vcell_e = visited[v_y][v_x+1];
- 		else vcell_e =  1;
-
- 		if(v_y>0)vcell_s = visited[v_y-1][v_x];
- 		else vcell_s = 1;
-
- 		if(v_x>0) vcell_w = visited[v_y][v_x-1];
- 		else vcell_w = 1;
-
- 		if(!vcell){
- 			if(vcell_n && vcell_e && vcell_s && vcell_w){
-				visited[v_y][v_x]=1;
-				vcell=1;
-			}
- 		}
-
-
-		if (vcell){
-			if(v_x<(MAZE_WIDTH-1)){
-				v_x++; //increment v_x
-			}else{
-				if(v_y==MAZE_HEIGHT-1){
-					//TO-DO, EVERYTHING EXPLORED
-					return 1;
-				}else{
-					v_y++;
-					v_x=0;
-				}
-			}
-		}else{
-			//if every cell around it is visited, mark as visited
-			/*if(vcell_n && vcell_e && vcell_s && vcell_w){
-				visited[v_y][v_x]=1;
-			}*/
-			
-			/*break;
-		}
-	}
-	return 0;*/
-
-	//////////////////////////ALGO RETRY///////////////////////
-	
 	//Find next v with lowest floodnumber
 	int vcell=0;
 	int vcell_n=0;
- 	int vcell_e=0;
- 	int vcell_s=0;
- 	int vcell_w=0;
- 	int i = 0;
- 	int j = 0;
- 	static int count=0;
- 	int flag = 0;
- 	int low_x = 0;
- 	int low_y = 0;
- 	int low_f = (MAZE_HEIGHT*MAZE_WIDTH)+1;
+	int vcell_e=0;
+	int vcell_s=0;
+	int vcell_w=0;
+	int i = 0;
+	int j = 0;
+	static int count=0;
+	int flag = 0;
+	int low_x = 0;
+	int low_y = 0;
+	int low_f = (MAZE_HEIGHT*MAZE_WIDTH)+1;
 
  	initMaze();
 
@@ -288,7 +236,6 @@ int explore(int x, int y, int goal_x, int goal_y, int orientation, int front, in
 	floodfill(goal_x,goal_y,0);
 	cell_f_num = getFNum(x,y);
 
-	/*Ideally, dependent on orientation. Change it in later update*/
 	if(!isWallNorth(x,y)){
 		dir=0; //default to north
 		if((cell_f_num - getFNum(x,y+1))>=0)f_num_dif = cell_f_num - getFNum(x,y+1);
@@ -423,72 +370,20 @@ returns: void
 
  */
 	setFNum(x,y,level);
-	////printf("!isWallNorth")
-//	//printf("!isWallNorth && ((level+1)< getFNum(x, y+1))-->%d", !isWallNorth && ((level+1)< getFNum(x, y+1)));
+	//if no (NORTH/SOUTH/EAST/WEST) wall and the floodfill number of that cell
+	//is < the current level + 1, run floodfill on the cell.
 	if(!isWallNorth(x,y) && ((level+1)< getFNum(x, y+1))){
-		////printf("Enter north flood\n");
 		floodfill(x,y+1,level+1);
 	}
 	if(!isWallEast(x,y) && ((level+1)< getFNum(x+1, y))){
-		////printf("Enter east flood\n");
 		floodfill(x+1,y,level+1);
 	}
 	if(!isWallSouth(x,y) && ((level+1)< getFNum(x, y-1))){
-		////printf("Enter south flood\n");
 		floodfill(x,y-1,level+1);
 	}
 	if(!isWallWest(x,y) && ((level+1)< getFNum(x-1, y))){
-		////printf("Enter west flood\n");
 		floodfill(x-1,y,level+1);
 	}
 	return;
 }
 
-/*int main(){
-
-	initMaze();
-	int i = 0;
-	int j = 0;
-	int x = 0;
-	int y = 0;
-	int orient = 0;
-	while(i!=4){
-
-		i = explore(x,y,4,4,orient);
-		switch(i){
-			case 0:	y++;
-					orient = 0;
-					//printf("north | peek()-->%d\n", peek());
-					break;
-			case 1:	x++;
-					orient = 1;
-					//printf("east | peek()-->%d\n", peek());
-					break;
-			case 2:	y--;
-					orient = 2;
-					//printf("south | peek()-->%d\n", peek());
-					break;
-			case 3:	x--;
-					orient = 3;
-					//printf("west | peek()-->%d\n", peek());
-					break;
-		}
-
-		////printf("x-->%d, y-->%d, turn-->%d", x,y,peek());
-		
-	}
-
-	/*orient = explore(0,0,4,4,orient);
-	//printf("\n\nx-->%d, y-->%d, turn-->%d", x,y,peek());
-	orient = explore(0,1,4,4,orient);
-	//printf("\n\nx-->%d, y-->%d, turn-->%d", x,y,peek());
-	orient = explore(0,2,4,4,orient);
-	//printf("\n\nx-->%d, y-->%d, turn-->%d", x,y,peek());
-	orient = explore(1,2,4,4,orient);
-	//printf("\n\nx-->%d, y-->%d, turn-->%d", x,y,peek());
-*/
-	//printf("\n");
-	//printMaze();
-
-
-//}
