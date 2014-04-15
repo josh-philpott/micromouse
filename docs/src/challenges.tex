@@ -1,0 +1,29 @@
+\documentclass{report}
+\usepackage{graphicx}
+
+\begin{document}
+
+\title{Difficulties of the MicroMouse}
+\author{Joshua Philpott\\
+		\and
+		Michael Goltz}
+
+\maketitle
+
+
+The MicroMouse project presented us with a number of significant hurdles which we worked to overcome throughout the entirety of the project. 
+
+\section{Difficulties in Algorithm Selection}
+We chose to do an algorithm implementing a goal-seeking explore algorith.Our algorithm makes its decision on which path to take based off of which path has the potential to be shortest to goal. Our difficulty came, not in finding the goal, but exploring the rest of the unvisited squares. Specifically, we had issues with the order in which the unvisited squares should be visited. We settled on an algorithm which selected the next visted square hasbased off which is closest to the bot at the time of search. On the onset this sounds good, but our bot winds up following a trail of unvisited squares(missing a few in a corner perhaps) and then having to retrace across the maze multiple times to find the last few unvisited squares.
+
+We went through multiple ideas of how to visit the unvisited squares. These included ideas such as: visiting cells close to the center and then working out; starting at a corner and working through; prioritizing corners and then working through to the center(the idea being the the center squares could be visited while heading between corners).
+
+\section{Version Control}
+At the beginning of this project, both of us were fairly unfamiliar with version control. This led to us emailing files back and forth, copying and pasting blocks of code to merge files, and commenting large blocks so we had old code for backups. We now have a git repository for our code hosted on a private github repository.
+
+\section{Problems with CodeWarrior}
+One of the major problems we had was with codewarrior. When attempting to use imports to bring in multiple files (in an effort to have some logical organization to our code), we kept being presented with link errors. As a workaround, we wound up copying our code a single file and only having 1 header file import. In addition, CodeWarriors text editor made it difficult for us to keep our code organized due to how it implements spaces for tabs. While both of these issues could be due to our lack of understanding of some details with CodeWarrior.
+
+
+
+\end{document}

@@ -10,9 +10,6 @@
 *the code from a seperate file so we directly added the
 *floodfill.c code as a temporary fix (which for the scope of
 *this class has become permenant!).
-*
-*
-* 
 * *********************************************/
 
 #include <hidef.h>      // common defines and macros 
@@ -151,7 +148,6 @@ int increment_v(int x, int y){
  * return 0 if still exploring
  * 
  */
-    
     //Find next v with lowest floodnumber
     int vcell=0;
     int vcell_n=0;
@@ -211,7 +207,6 @@ int increment_v(int x, int y){
         return 1;
     }
 } 
-
 void initMaze(){
 	int i, j = 0;
 	for(i=0;i<MAZE_WIDTH;i++){
@@ -220,7 +215,6 @@ void initMaze(){
 		}
 	}
 }
-
 void printMaze(){
 	int i = 0;
 	int j = 0;
@@ -232,7 +226,6 @@ void printMaze(){
 			//printf("\n");
 	}
 }
-
 bool isWallWest(int x, int y){
 	if(x==0){
 		return true;
@@ -241,7 +234,6 @@ bool isWallWest(int x, int y){
 		return true;
 	}
 	else return false;
-}
 
 bool isWallEast(int x, int y){
 	if(x==MAZE_WIDTH-1){
@@ -252,7 +244,6 @@ bool isWallEast(int x, int y){
 	}
 	else return false;
 }
-
 bool isWallNorth(int x, int y){
 	if(y==MAZE_HEIGHT-1){
 		return true;
@@ -262,7 +253,6 @@ bool isWallNorth(int x, int y){
 	}
 	else return false;
 }
-
 bool isWallSouth(int x, int y){
 	if(y==0){
 		return true;
@@ -274,10 +264,8 @@ bool isWallSouth(int x, int y){
 }
 
 /* * * * *  * * * *  * * * ** * * * * * * * * * * * * * * *
-
     Explore the maze and goal seek
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 int explore(int x, int y, int goal_x, int goal_y, int orientation, int front, int left, int right){
     /*********************************************
     *explore
@@ -286,7 +274,6 @@ int explore(int x, int y, int goal_x, int goal_y, int orientation, int front, in
     *   -1      - error
     *   0 - 3   - direction (N,E,W,S)
     *   4       - maze complete
-    *
     * *******************************************/
     int cell_f_num = (MAZE_HEIGHT*MAZE_WIDTH)+1;
     int temp = (MAZE_HEIGHT*MAZE_WIDTH)+1;
@@ -296,11 +283,8 @@ int explore(int x, int y, int goal_x, int goal_y, int orientation, int front, in
     static int maze_explore_complete=0;
     static int maze_return_start=0;
     if(!maze_explore_complete)mapCell(x, y, orientation, front, left, right); //update wall array with new view;
-
     visited[y][x] = 1;
-
     if (x==4 && y==4)found_goal=1;
-
     if(found_goal){
         if(increment_v(x,y) && !maze_explore_complete){
             maze_explore_complete=1;
@@ -309,7 +293,6 @@ int explore(int x, int y, int goal_x, int goal_y, int orientation, int front, in
         goal_x = v_x;
         goal_y = v_y;
     }
-
     if(maze_explore_complete){
         if(x==0 && y==0){
          //   printf("back at start! Heading to finish...\n");
@@ -326,11 +309,9 @@ int explore(int x, int y, int goal_x, int goal_y, int orientation, int front, in
         }
 
     }
-
     initMaze();
     floodfill(goal_x,goal_y,0);
     cell_f_num = getFNum(x,y);
-
     /*Ideally, dependent on orientation. Change it in later update*/
     if(!isWallNorth(x,y)){
         dir=0; //default to north
@@ -352,8 +333,6 @@ int explore(int x, int y, int goal_x, int goal_y, int orientation, int front, in
         f_num_dif = temp;
         dir = 3;
     }
-
-
     if (dir>=0){
         return dir;
 
@@ -371,11 +350,9 @@ int mapCell(int x, int y, int orientation, int front, int left, int right){ //0-
 	int l_wall=0;
 	int f_wall=0;
 	int r_wall=0;
-
 	/*Get Walls. If wall exists, set l_wall, f_wall, r_wall
 	*
 	*******************************************************/
-
 	//check if sensors are greater than wall present threshold
 	if(front>40){       
 		f_wall = 1;
@@ -413,7 +390,6 @@ int mapCell(int x, int y, int orientation, int front, int left, int right){ //0-
 			break;
 	}
 }
-
 
 int setWall(int x, int y, int dir){ //0-N, 1-E, 2-S, 3-W
 /************************************
@@ -478,10 +454,9 @@ inputs: goal x position
     current level (0 for first run)
 returns: void
 ****************************************************/
-
 	setFNum(x,y,level);
 	////printf("!isWallNorth")
-//	//printf("!isWallNorth && ((level+1)< getFNum(x, y+1))-->%d", !isWallNorth && ((level+1)< getFNum(x, y+1)));
+	//printf("!isWallNorth && ((level+1)< getFNum(x, y+1))-->%d", !isWallNorth && ((level+1)< getFNum(x, y+1)));
 	if(!isWallNorth(x,y) && ((level+1)< getFNum(x, y+1))){
 		////printf("Enter north flood\n");
 		floodfill(x,y+1,level+1);
@@ -505,15 +480,10 @@ returns: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*end floodfill.c*/
 
-
-
 void main(void){
-  
-
 	SYNR = 0x02;
 	REFDV = 0x00;	
-	while (!(CRGFLG & 0x08))
-	{ }
+	while (!(CRGFLG & 0x08)){}
 	CLKSEL = 0x80;
 	 
 	InitializeATD();
@@ -525,24 +495,17 @@ void main(void){
 	MCCTL = 0xCF;
 	SetupDDR_Ports();
 	setup_buzzer();
-	
 	//initMaze();
-	
 	EnableInterrupts;
-	
 	for(;;) {
 	  
 		ATD0CTL5 = 0x33;
 		  
 		while (!(ATD0STAT0 & 0x80));
-	
 		
 /* * * * * * * * * * * * * * * * * * *
-
     Merging Drive and wall array and floodfill
-
- * * * * * * * * * * * * * * * * * * */
-             
+ * * * * * * * * * * * * * * * * * * */        
 	switch (state){
 		case 0:  G_Turn = explore(Current_x, Current_y, 4,4, G_Current_Orient, y_s, Output_left[OutputIndex], Output_right[OutputIndex]); // 4 finished, 0 -N, 1 -E, 2 -S, 3 -W, -1 -error
 		              SWITCH_DIRECTION();
@@ -654,18 +617,13 @@ interrupt VectorNumber_Vtimmdcu void mdcuInterrupt ()
 	interruptcount_filter++;
 	interruptcount_left++;
 	interruptcount_right++;
-  
-
 	//   fixed point math butterworth filter
 	//   read sensors every millisecond = 1ms = 0.001sec
 	if(interruptcount_filter == 10 ){ //&& ((state == 0) || (state == 1) || (state == 2))
-    
 		interruptcount_filter = 0;
-	   
 		// right sensor
 		rx = ATD0DR2H;
-		rx <<= 14;
-		  
+		rx <<= 14;	  
 		rdlng = rx - a[0] * rd[1] - a[1] * rd[2];
 		rdlng <<= 2;
 		rdlng >>= 16;
@@ -718,14 +676,11 @@ interrupt VectorNumber_Vtimmdcu void mdcuInterrupt ()
 }//  end of MDCU
 
 void HALF_STEP_FORWARD(int steps){
- 
-	while (count_both <= steps){
-	    
+	while (count_both <= steps){  
         if(y_s>60){       // 55
           count_both = 0;
 		  return;
         }    
-
         if (state == 1 || state == 0 || state == 2 || state==6) {
 			//PD CONTROL
 			diff = ((Output_left[OutputIndex] > Output_right[OutputIndex]) ? (
@@ -825,8 +780,6 @@ void HALF_STEP_FORWARD(int steps){
 
 } // end of half step forward
 
-
-
 void SWITCH_DIRECTION(void){
   switch (G_Current_Orient){
     case 0:   G_Current_Orient = G_Turn;
@@ -871,7 +824,6 @@ void SWITCH_DIRECTION(void){
     }break;
   }
 }
-
 void RIGHT_STEP_FORWARD(void){
 
     //right wheel speed
@@ -1044,7 +996,6 @@ void RAMP_BOTH_DOWN_REV(int steps, int direction){
 		count_both = 0;
 
 } // end of 
-
 
 void RAMP_BOTH_UP(void){
 	
